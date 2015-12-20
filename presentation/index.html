@@ -52,15 +52,6 @@
 
         <section>
             <h2>Angular 1</h2>
-            <br/>
-            <ul>
-                <li>Controllers</li>
-                <li>Views</li>
-                <li>Providers</li>
-                <li>Directives</li>
-                <li>Filters</li>
-                <li>ES5</li>
-            </ul>
         </section>
 
         <section>
@@ -92,14 +83,11 @@ angular.module('phonecatApp', [])
         </section>
 
         <section>
+            <img src="img/angularDiagram.png" height="75%" width="75%"/>
+        </section>
+
+        <section>
             <h2>Angular 2</h2>
-            <br/>
-            <ul>
-                <li>Components</li>
-                <li>Views</li>
-                <li>Services</li>
-                <li>Typescript</li>
-            </ul>
         </section>
 
         <section>
@@ -120,15 +108,6 @@ angular.module('phonecatApp', [])
 &lt;body>
   <my-app>Loading...</my-app>
 &lt;/body></code></pre>
-        </section>
-
-        <section>
-            <pre><code class="xml"><ul>
-  <li *ngFor="#phone of phones">
-    <span>{{phone.name}}</span>
-    <p>{{phone.snippet}}</p>
-  </li>
-</ul></code></pre>
         </section>
 
         <section>
@@ -153,13 +132,79 @@ var PHONES: Phone[] = [
         <section>
             <pre><code class="typescript">@Component({
   selector: 'my-app',
-  template: 'app/app.html'
+  template: `
+    <ul>
+      <li *ngFor="#phone of phones">
+        <span>{{phone.name}}</span>
+        <p>{{phone.snippet}}</p>
+      </li>
+    </ul>
+  `
 })
 export class AppComponent {
   public phones: Phone[] = PHONES;
 }
 
 bootstrap(AppComponent);</code></pre>
+        </section>
+
+        <section>
+            <img src="img/overview2.png" height="125%" width="125%"/>
+        </section>
+
+        <section>
+            <h2>Modules</h2>
+            <br/>
+            <p>Angular 2 no longer provides it's own modules.</p><p>It uses TypeScript/ES6 modules instead.</p>
+        </section>
+
+        <section>
+            <pre><code class="typescript">import {Component} from 'angular2/core';
+import {AppComponent} from './app.component';</code></pre>
+        </section>
+
+        <section>
+            <h2>Components</h2>
+            <br/>
+            <p>A <b>Component</b> controls a patch of screen real estate that we could call a <i>view</i>.</p>
+        </section>
+
+        <section>
+            <p>Angular creates, updates, and destroys components as the user moves through the application.</p>
+        </section>
+
+        <section>
+            <p>Angular calls optional lifecycle hooks</p>
+            <br/>
+            <ul>
+              <li>ngOnChanges - called when a binding value changes</li>
+              <li>ngOnInit - after the first ngOnChanges</li>
+              <li>ngDoCheck - developer's custom change detection</li>
+              <li>ngAfterContentInit - after component content initialized</li>
+              <li>ngAfterContentChecked - after every check of component content</li>
+              <li>ngAfterViewInit - after component's view(s) are initialized</li>
+              <li>ngAfterViewChecked - after every check of a component's view(s)</li>
+              <li>ngOnDestroy - just before the directive is destroyed.</li>
+            </ul>
+        </section>
+
+        <section>
+            <pre><code class="typescript">export class AddOnComponent implements OnInit {
+
+  addOns:AddOn[];
+  selectedAddOn:AddOn;
+
+  constructor(private _store: ProductCatalogStore) {}
+
+  ngOnInit() {
+    this.addOns = this._store.getAddOns();
+  }
+
+  selectAddOn(addOn:AddOn) {
+    this.selectedAddOn = addOn;
+  }
+
+}</code></pre>
         </section>
 
         <section>

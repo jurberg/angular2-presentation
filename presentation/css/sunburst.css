@@ -147,7 +147,7 @@ pre .deletion {
   color: #F8F8F8;
 }
 
-pre .coffeescript .javascript,
+pre .coffeescript .javascript, .typescript
 pre .javascript .xml,
 pre .tex .formula,
 pre .xml .javascript,
