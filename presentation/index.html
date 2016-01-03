@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Introduction to Angular 2</title>
+    <title>Angular 2 for the Angular 1 Dev</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -39,8 +39,8 @@
                 <img src="img/shield.png"/>
             </div>
             <div style="float: right;">
-                <h2>Introduction to</h2>
-                <h2>Angular 2</h2>
+                <h2>Angular 2 for the</h2>
+                <h2>Angular 1 Dev</h2>
                 <p>
                     <br/><br/>
                     <small>Created by John Urberg</small><br>
@@ -63,6 +63,8 @@
       <p>{{phone.snippet}}</p>
     </li>
   </ul>
+  <script src="js/angular.js"></script>
+  <script src="js/app.js"></script>
 &lt;/body>
 &lt;/html></code></pre>
         </section>
@@ -83,7 +85,7 @@ angular.module('phonecatApp', [])
         </section>
 
         <section>
-            <img src="img/angularDiagram.png" height="75%" width="75%"/>
+            <img src="img/angular-one.png" height="55%" width="55%"/>
         </section>
 
         <section>
@@ -91,23 +93,17 @@ angular.module('phonecatApp', [])
         </section>
 
         <section>
-            <pre><code class="xml">&lt;head>
+            <pre><code class="xml">&lt;html>
+&lt;head>
   <script>
-    System.config({
-      packages: {
-        app: {
-          format: 'register',
-          defaultExtension: 'js'
-        }
-      }
-    });
     System.import('app/app')
       .then(null, console.error.bind(console));
   </script>
 &lt;/head>
 &lt;body>
   <my-app>Loading...</my-app>
-&lt;/body></code></pre>
+&lt;/body>
+&lt;/html></code></pre>
         </section>
 
         <section>
@@ -149,16 +145,52 @@ bootstrap(AppComponent);</code></pre>
         </section>
 
         <section>
+            <pre><code class="javascript">function AppComponent() {
+  this.phones = PHONES;
+}
+
+AppComponent.annotations = [
+  new ng.core.Component({
+    selector: 'my-app',
+    templateUrl: 'app/app.html'
+  })];
+
+document.addEventListener('DOMContentLoaded', function() {
+  ng.platform.browser.bootstrap(AppComponent);
+});</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">AppComponent = ng.core
+  .Component({
+    selector: 'my-app',
+    templateUrl: 'app/app.html'
+  })
+  .Class({
+    constructor: function() {
+      this.phones = PHONES;
+    }
+  });
+
+document.addEventListener('DOMContentLoaded', function() {
+  ng.platform.browser.bootstrap(AppComponent);
+});</code></pre>
+        </section>
+
+        <section>
             <img src="img/overview2.png" height="125%" width="125%"/>
         </section>
 
         <section>
             <h2>Modules</h2>
             <br/>
-            <p>Angular 2 no longer provides it's own modules.</p><p>It uses TypeScript/ES6 modules instead.</p>
+            <p>Angular 2 no longer provides it's own modules.</p><p>It uses TypeScript or ES6 modules instead.</p>
         </section>
 
         <section>
+            <h3>Angular 1</h3>
+            <pre><code class="typescript">angular.module('app', ['app.component']);</code></pre>
+            <h3>Angular 2</h3>
             <pre><code class="typescript">import {Component} from 'angular2/core';
 import {AppComponent} from './app.component';</code></pre>
         </section>
@@ -166,11 +198,16 @@ import {AppComponent} from './app.component';</code></pre>
         <section>
             <h2>Components</h2>
             <br/>
-            <p>A <b>Component</b> controls a patch of screen real estate that we could call a <i>view</i>.</p>
+            <p>A component is the main UI building block of Angular 2</p>
         </section>
 
         <section>
-            <p>Angular creates, updates, and destroys components as the user moves through the application.</p>
+            <ul>
+                <li class="fragment">Angular 2 is a tree of components</li>
+                <li class="fragment">Every Angular 2 application must have at least one component</li>
+                <li class="fragment">A component class is an execution context for the template</li>
+                <li class="fragment">A component requires a @Component decorator</li>
+            </ul>
         </section>
 
         <section>
@@ -189,22 +226,52 @@ import {AppComponent} from './app.component';</code></pre>
         </section>
 
         <section>
-            <pre><code class="typescript">export class AddOnComponent implements OnInit {
+            <h2>No More Controllers</h2>
+        </section>
 
+        <section>
+            <h3>Angular 1</h3>
+            <pre><code class="typescript">function AddOnController($scope, ProductCatalogStore) {
+  this._store = ProductCatalogStore;
+  this.addOns = [];
+  this.init = function() {
+    this.addOns = this._store.getAddOns();
+  };
+  $scope.$on('destroy', function() {
+    this.addOns = [];
+  });
+}
+app.controller('AddOnController',
+  ['$scope', 'ProductCatalogStore', AddOnController]);</code></pre>
+            </section>
+
+        <section>
+            <h3>Angular 2</h3>
+            <pre><code class="typescript">@Component({
+  providers: [ProductCatalogStore]
+})
+export class AddOnComponent implements OnInit {
   addOns:AddOn[];
-  selectedAddOn:AddOn;
-
-  constructor(private _store: ProductCatalogStore) {}
-
+  constructor(private _store: ProductCatalogStore) {
+  }
   ngOnInit() {
     this.addOns = this._store.getAddOns();
   }
-
-  selectAddOn(addOn:AddOn) {
-    this.selectedAddOn = addOn;
+  ngOnDestroy() {
+    this.addOns = null;
   }
-
 }</code></pre>
+        </section>
+
+        <section>
+            <h2>Templates</h2>
+            <br/>
+            <p>Defines a component's view with a brand new syntax.</p>
+        </section>
+
+        <section>
+            <p>Angular 1</p><pre><code class="xml"><input type="text" ng-model="model.name" /></code></pre>
+            <p>Angular 2</p><pre><code class="xml"><input type="text" [(ng-model)]="model.name" /></code></pre>
         </section>
 
         <section>
