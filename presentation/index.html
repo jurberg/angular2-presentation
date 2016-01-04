@@ -256,7 +256,7 @@ app.controller('AddOnController',
   providers: [ProductCatalogStore],
   directives: [AddOnItemComponent]
 })
-export class AddOnComponent {
+export class AddOnComponent implements OnInit, OnDestroy {
   addOns:AddOn[];
   constructor(private _store: ProductCatalogStore) {
   }
