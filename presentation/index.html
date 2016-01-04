@@ -203,15 +203,15 @@ import {AppComponent} from './app.component';</code></pre>
 
         <section>
             <ul>
-                <li class="fragment">Angular 2 is a tree of components</li>
-                <li class="fragment">Every Angular 2 application must have at least one component</li>
+                <li class="fragment">An Angular 2 app is a tree of components</li>
+                <li class="fragment">Every Angular 2 app must have at least one component</li>
                 <li class="fragment">A component class is an execution context for the template</li>
                 <li class="fragment">A component requires a @Component decorator</li>
             </ul>
         </section>
 
         <section>
-            <p>Angular calls optional lifecycle hooks</p>
+            <h4>Component Lifecyle Hooks</h4>
             <br/>
             <ul>
               <li>ngOnChanges - called when a binding value changes</li>
@@ -286,11 +286,24 @@ export class AddOnComponent implements OnInit, OnDestroy {
         </section>
 
         <section>
+            <p>Attributes initialize DOM properties and then they are done. Property values may change; attribute values don't.</p>
+        </section>
+
+        <section>
             <p>The HTML attribute and the DOM property are not the same thing even when they have the same name.</p>
         </section>
 
         <section>
             <h3>Property Bindings</h3>
+            <br/>
+            <ul>
+                <li>Element Property</li>
+                <li>Component Property</li>
+                <li>Directive property</li>
+            </ul>
+        </section>
+
+        <section>
             <pre><code class="xml"><!-- Angular 1 -->
 <todo-cmp model="myTodo"></todo-cmp>
 
@@ -299,6 +312,17 @@ export class AddOnComponent implements OnInit, OnDestroy {
 
 <!-- Angular 2 "Shorthand" -->
 <todo-cmp [model]="myTodo"></todo-cmp></code></pre>
+        </section>
+
+        <section>
+            <pre><code class="xml"><!-- Attribute -->
+&lt;td [attr.colspan]="1 + 1">One-Two&lt;/td>
+
+<!-- Class -->
+&lt;div [class.special]="isSpecial">Special&lt;/div>
+
+<!-- Style -->
+&lt;button [style.color] = "isSpecial ? 'red' : 'green'"/></code></pre>
         </section>
 
         <section>
@@ -315,6 +339,15 @@ export class AddOnComponent implements OnInit, OnDestroy {
 
         <section>
             <h3>Event Bindings</h3>
+            <br/>
+            <ul>
+                <li>Element Event</li>
+                <li>Component Event</li>
+                <li>Directive Event</li>
+            </ul>
+        </section>
+
+        <section>
             <pre><code class="xml"><!-- Angular 1 -->
 &lt;button ng-click="submit()"/>
 
@@ -357,17 +390,6 @@ export class AddOnComponent implements OnInit, OnDestroy {
         </section>
 
         <section>
-            <pre><code class="xml"><!-- Attribute -->
-&lt;td [attr.colspan]="1 + 1">One-Two&lt;/td>
-
-<!-- Class -->
-&lt;div [class.special]="isSpecial">Special&lt;/div>
-
-<!-- Style -->
-&lt;button [style.color] = "isSpecial ? 'red' : 'green'"/></code></pre>
-        </section>
-
-        <section>
             <h3>Local Variables</h3>
             <pre>&lt;video #movieplayer>
   &lt;button (click)="movieplayer.play()">
@@ -382,7 +404,7 @@ export class AddOnComponent implements OnInit, OnDestroy {
         <section>
             <h3>Templates</h3>
             <br/>
-            <p>“syntactic sugar” that makes it easier to read and write directives that modify HTML layout with the help of templates</p>
+            <p>“syntactic sugar” that makes it easier to read and write directives that modify HTML layout</p>
         </section>
 
         <section>
@@ -405,7 +427,7 @@ export class AddOnComponent implements OnInit, OnDestroy {
         <section>
             <h3>Input/Output Variables</h3>
             <br/>
-            <p>We can only bind to target directive properties that are either inputs or outputs.</p>
+            <p>Creates parameters for directive properties</p>
         </section>
 
 
@@ -532,6 +554,14 @@ export class AppComponent { }</code></pre>
 
         <section>
             <h2>Questions</h2>
+        </section>
+
+        <section>
+            <h2>References</h2>
+            <br/>
+            <ul>
+                <li><a href="https://angular.io/docs/ts/latest/">Angular Docs</a></li>
+            </ul>
         </section>
 
         <section>
