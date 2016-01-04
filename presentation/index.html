@@ -107,7 +107,7 @@ angular.module('phonecatApp', [])
         </section>
 
         <section>
-            <pre><code class="typescript">import {bootstrap} from 'angular2/platform/browser'
+            <pre>import {bootstrap} from 'angular2/platform/browser';
 import {Component} from 'angular2/core';
 
 interface Phone {
@@ -122,26 +122,26 @@ var PHONES: Phone[] = [
    'snippet': 'The Next, Next Generation tablet.'},
   {'name': 'MOTOROLA XOOM™',
    'snippet': 'The Next, Next Generation tablet.'}
-];</code></pre>
+];</pre>
         </section>
 
         <section>
-            <pre><code class="typescript">@Component({
+            <pre>@Component({
   selector: 'my-app',
   template: `
-    <ul>
-      <li *ngFor="#phone of phones">
-        <span>{{phone.name}}</span>
-        <p>{{phone.snippet}}</p>
-      </li>
-    </ul>
+   &lt;ul>
+      &lt;li *ngFor="#phone of phones">
+        &lt;span>{{phone.name}}&lt;/span>
+        &lt;p>{{phone.snippet}}&lt;/p>
+      &lt;/li>
+    &lt;/ul>
   `
 })
 export class AppComponent {
   public phones: Phone[] = PHONES;
 }
 
-bootstrap(AppComponent);</code></pre>
+bootstrap(AppComponent);</pre>
         </section>
 
         <section>
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </section>
 
         <section>
-            <h2>Modules</h2>
+            <h3>Modules</h3>
             <br/>
             <p>Angular 2 no longer provides it's own modules.</p><p>It uses TypeScript or ES6 modules instead.</p>
         </section>
@@ -196,7 +196,7 @@ import {AppComponent} from './app.component';</code></pre>
         </section>
 
         <section>
-            <h2>Components</h2>
+            <h3>Components</h3>
             <br/>
             <p>A component is the main UI building block of Angular 2</p>
         </section>
@@ -226,7 +226,12 @@ import {AppComponent} from './app.component';</code></pre>
         </section>
 
         <section>
-            <h2>No More Controllers</h2>
+            <h2>Gone!</h2>
+            <br/>
+            <ul>
+                <li>Controllers</li>
+                <li>Scope</li>
+            </ul>
         </section>
 
         <section>
@@ -248,9 +253,10 @@ app.controller('AddOnController',
         <section>
             <h3>Angular 2</h3>
             <pre><code class="typescript">@Component({
-  providers: [ProductCatalogStore]
+  providers: [ProductCatalogStore],
+  directives: [AddOnItemComponent]
 })
-export class AddOnComponent implements OnInit {
+export class AddOnComponent {
   addOns:AddOn[];
   constructor(private _store: ProductCatalogStore) {
   }
@@ -264,14 +270,264 @@ export class AddOnComponent implements OnInit {
         </section>
 
         <section>
-            <h2>Templates</h2>
+            <h3>Templates</h3>
             <br/>
-            <p>Defines a component's view with a brand new syntax.</p>
+            <p>"HTML Plus"</p>
         </section>
 
         <section>
-            <p>Angular 1</p><pre><code class="xml"><input type="text" ng-model="model.name" /></code></pre>
-            <p>Angular 2</p><pre><code class="xml"><input type="text" [(ng-model)]="model.name" /></code></pre>
+            <h3>HTML Attribute vs. DOM Property</h3>
+            <br/>
+            <ul>
+                <li>Attributes are defined by HTML</li>
+                <li>Properties are defined by DOM</li>
+                <li>Angular 2 binds to DOM properties</li>
+            </ul>
+        </section>
+
+        <section>
+            <p>The HTML attribute and the DOM property are not the same thing even when they have the same name.</p>
+        </section>
+
+        <section>
+            <h3>Property Bindings</h3>
+            <pre><code class="xml"><!-- Angular 1 -->
+<todo-cmp model="myTodo"></todo-cmp>
+
+<!-- Angular 2 -->
+<todo-cmp bind-model="myTodo"></todo-cmp>
+
+<!-- Angular 2 "Shorthand" -->
+<todo-cmp [model]="myTodo"></todo-cmp></code></pre>
+        </section>
+
+        <section>
+            <ul>
+                <li>ng-src => [src]</li>
+                <li>ng-href => [href]</li>
+                <li>ng-show => [visible]</li>
+                <li>ng-hide => [hidden]</li>
+                <li>ng-style="color: red" => [style.color]="red"</li>
+                <li>ng-class="name" => [class.name]</li>
+                <li>ng-class={'name': condition} => [class.name]="condition"</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>Event Bindings</h3>
+            <pre><code class="xml"><!-- Angular 1 -->
+&lt;button ng-click="submit()"/>
+
+<!-- Angular 2 -->
+&lt;button on-click="submit()"/>
+
+<!-- Angular 2 "Shorthand" -->
+&lt;button (click)="submit($event)"/>
+
+<!-- Bubble Event Up -->
+&lt;button (^click)="submit($event)"/></code></pre>
+        </section>
+
+        <section>
+            <ul>
+                <li>ng-click => (click)</li>
+                <li>ng-dblclick => (dblclick)</li>
+                <li>ng-keydown => (keydown)</li>
+                <li>ng-keyup => (keyup)</li>
+                <li>ng-mouseover => (mouseover)</li>
+                <li>ng-mouseenter => (mouseenter)</li>
+                <li>ng-mouseleave => (mouseleave)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>Two-Way Bindings</h3>
+            <pre><code class="xml"><!-- Angular 1 -->
+<todo-cmp model="myTodo"></todo-cmp>
+
+<!-- Angular 2 -->
+<todo-cmp bindon-model="myTodo"></todo-cmp>
+
+<!-- Angular 2 "Shorthand" -->
+<todo-cmp [(model)]="myTodo"></todo-cmp>
+
+&lt;input [ng-model]="todo.text"
+       (ng-model-change)="todo.text=$event"/>
+&lt;input [(ng-model)]="todo.text"/></code></pre>
+        </section>
+
+        <section>
+            <pre><code class="xml"><!-- Attribute -->
+&lt;td [attr.colspan]="1 + 1">One-Two&lt;/td>
+
+<!-- Class -->
+&lt;div [class.special]="isSpecial">Special&lt;/div>
+
+<!-- Style -->
+&lt;button [style.color] = "isSpecial ? 'red' : 'green'"/></code></pre>
+        </section>
+
+        <section>
+            <h3>Local Variables</h3>
+            <pre>&lt;video #movieplayer>
+  &lt;button (click)="movieplayer.play()">
+&lt;/video>
+
+&lt;video-player var-movieplayer>&lt;/video-player>
+
+&lt;input #new-todo/>
+&lt;p>{{newTodo.value}}&lt;/p></pre>
+        </section>
+
+        <section>
+            <h3>Templates</h3>
+            <br/>
+            <p>“syntactic sugar” that makes it easier to read and write directives that modify HTML layout with the help of templates</p>
+        </section>
+
+        <section>
+            <pre>&lt;!-- Angular 1 -->
+&lt;li ng-repeat="item in items">
+  {{$index}} {{item}}
+&lt;/li>
+
+&lt;!-- Angular 2 -->
+&lt;li *ngFor="#item of items; #i = index">
+  {{i}} {{item}}
+&lt;/li>
+
+&lt;!-- Angular 2.0 longhand ngFor -->
+&lt;template ngFor #item="$implicit" [ngForOf]="items" #i="index">
+  {{i}} {{item}}
+&lt;/template></pre>
+        </section>
+
+        <section>
+            <h3>Input/Output Variables</h3>
+            <br/>
+            <p>We can only bind to target directive properties that are either inputs or outputs.</p>
+        </section>
+
+
+        <section>
+            <pre><code>&lt;hero-detail
+  [hero]="currentHero"
+  (deleted)="onHeroDeleted($event)">
+&lt;/hero-detail></code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">class HeroDetailComponent {
+  @Input() hero: Hero;
+  @Output() deleted = new EventEmitter&lt;Hero>();
+}</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">HeroDetailComponent = ng.core
+  .Component({
+    inputs: ['hero'],
+    outputs: ['deleted'],
+  })
+  .Class({
+    constructor: function() {
+      this.hero = null;
+      this.deleted = new EventEmitter();
+    }
+});</code></pre>
+        </section>
+
+        <section>
+            <h3>Pipes</h3>
+            <br/>
+            <p>Angular 2 replacement for filter</p>
+        </section>
+
+        <section>
+            <pre><code><p>The hero's birthday is {{ birthday | date }}</p></code></pre>
+        </section>
+
+        <section>
+            <pre><code>import {Pipe} from 'angular2/core';
+
+@Pipe({name: 'exponentialStrength'})
+export class ExponentialStrengthPipe {
+  transform(value:number, args:string[]) : any {
+    return Math.pow(value, parseInt(args[0] || '1', 10));
+  }
+}</code></pre>
+        </section>
+
+        <section>
+            <pre><code>@Component({
+  selector: 'power-booster',
+  template: `
+   <h2>Power Booster</h2>
+   <p>
+    Super power boost: {{2 | exponentialStrength: 10}}
+   </p>
+  `,
+  pipes: [ExponentialStrengthPipe]
+})
+export class PowerBooster { }</code></pre>
+        </section>
+
+        <section>
+            <h3>Routing</h3>
+        </section>
+
+        <section>
+            <h4>Angular 1</h4>
+            <pre><code class="javascript">phonecatApp.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/phones', {
+        templateUrl: 'partials/phone-list.html',
+        controller: 'PhoneListCtrl'
+      }).
+      when('/phones/:phoneId', {
+        templateUrl: 'partials/phone-detail.html',
+        controller: 'PhoneDetailCtrl'
+      }).
+      otherwise({
+        redirectTo: '/phones'
+      });
+}]);</code></pre>
+        </section>
+
+        <section>
+            <h4>Angular 2</h4>
+            <pre><code class="javascript">@Component({ ... })
+@RouteConfig([
+  {path:'/crisis-center', name: 'CrisisCenter',
+    component: CrisisListComponent},
+  {path:'/heroes', name: 'Heroes',
+    component: HeroListComponent},
+  {path:'/hero/:id', name: 'HeroDetail',
+    component: HeroDetailComponent}
+])
+export class AppComponent { }</code></pre>
+        </section>
+
+        <section>
+            <pre><code><h1>Component Router</h1>
+<a [routerLink]="['CrisisCenter']">Crisis Center</a>
+<a [routerLink]="['Heroes']">Heroes</a>
+<router-outlet></router-outlet></code></pre>
+        </section>
+
+        <section>
+            <h3>Attribute Directives</h3>
+            <br/>
+            <p>An Attribute directive changes the appearance or behavior of a DOM element</p>
+        </section>
+
+        <section>
+            <h3>Structural Directives</h3>
+        </section>
+
+        <section>
+            <h3>Dependency Injection</h3>
         </section>
 
         <section>
