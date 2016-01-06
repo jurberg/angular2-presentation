@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Angular 2 for the Angular 1 Dev</title>
+    <title>Angular 2 for the Angular 1 Pro</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -40,7 +40,7 @@
             </div>
             <div style="float: right;">
                 <h2>Angular 2 for the</h2>
-                <h2>Angular 1 Dev</h2>
+                <h2>Angular 1 Pro</h2>
                 <p>
                     <br/><br/>
                     <small>Created by John Urberg</small><br>
@@ -107,45 +107,37 @@ angular.module('phonecatApp', [])
         </section>
 
         <section>
-            <pre>import {bootstrap} from 'angular2/platform/browser';
+            <pre><code class="javascript">import {bootstrap} from 'angular2/platform/browser';
 import {Component} from 'angular2/core';
 
 interface Phone {
   name: string;
   snippet: string;
 }
+let PHONES: Phone[] = [/* ... */];
 
-var PHONES: Phone[] = [
-  {'name': 'Nexus S',
-   'snippet': 'Fast just got faster with Nexus S.'},
-  {'name': 'Motorola XOOM™ with Wi-Fi',
-   'snippet': 'The Next, Next Generation tablet.'},
-  {'name': 'MOTOROLA XOOM™',
-   'snippet': 'The Next, Next Generation tablet.'}
-];</pre>
-        </section>
-
-        <section>
-            <pre>@Component({
+@Component({
   selector: 'my-app',
-  template: `
-   &lt;ul>
-      &lt;li *ngFor="#phone of phones">
-        &lt;span>{{phone.name}}&lt;/span>
-        &lt;p>{{phone.snippet}}&lt;/p>
-      &lt;/li>
-    &lt;/ul>
-  `
+  templateUrl: 'app/app.html'
 })
 export class AppComponent {
   public phones: Phone[] = PHONES;
 }
-
-bootstrap(AppComponent);</pre>
+bootstrap(AppComponent);</code></pre>
         </section>
 
         <section>
-            <pre><code class="javascript">function AppComponent() {
+            <pre>&lt;!-- app.html -->
+&lt;ul>
+  &lt;li *ngFor="#phone of phones">
+    &lt;span>{{phone.name}}&lt;/span>
+    &lt;p>{{phone.snippet}}&lt;/p>
+  &lt;/li>
+&lt;/ul></pre>
+        </section>
+
+        <section>
+            <pre><code class="typescript">function AppComponent() {
   this.phones = PHONES;
 }
 
@@ -161,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </section>
 
         <section>
-            <pre><code class="javascript">AppComponent = ng.core
+            <pre><code class="javascript">let AppComponent = ng.core
   .Component({
     selector: 'my-app',
     templateUrl: 'app/app.html'
@@ -384,9 +376,10 @@ export class AddOnComponent implements OnInit, OnDestroy {
 <!-- Angular 2 "Shorthand" -->
 <todo-cmp [(model)]="myTodo"></todo-cmp>
 
-&lt;input [ng-model]="todo.text"
-       (ng-model-change)="todo.text=$event"/>
-&lt;input [(ng-model)]="todo.text"/></code></pre>
+&lt;input [(ngModel)]="todo.text"/>
+
+&lt;input [ngModel]="todo.text"
+       (ngModelChange)="todo.text=$event"/></code></pre>
         </section>
 
         <section>
@@ -539,17 +532,78 @@ export class AppComponent { }</code></pre>
         </section>
 
         <section>
-            <h3>Attribute Directives</h3>
+            <h3>Directives</h3>
             <br/>
-            <p>An Attribute directive changes the appearance or behavior of a DOM element</p>
+            <ul>
+                <li>Components</li>
+                <li>Structural directives</li>
+                <li>Attribute directives</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>Components</h3>
+            <br/>
+            <p>a directive with a template</p>
         </section>
 
         <section>
             <h3>Structural Directives</h3>
+            <br/>
+            <p>changes the DOM layout by adding and removing DOM elements</p>
+        </section>
+
+        <section>
+            <h3>Attribute Directives</h3>
+            <br/>
+            <p>changes the appearance or behavior of a DOM element</p>
+        </section>
+
+        <section>
+            <pre><code>import {Directive, ElementRef, Renderer, Input}
+   from 'angular2/core';
+
+@Directive({
+  selector: '[myHighlight]'
+})
+export class HighlightDirective {
+  constructor(el: ElementRef, renderer: Renderer) {
+    renderer.setElementStyle(el,
+        'backgroundColor', 'yellow');
+  }
+}</code></pre>
+        </section>
+
+        <section>
+            <pre>import {Component} from 'angular2/core';
+import {HighlightDirective} from './highlight.directive';
+
+@Component({
+  selector: 'my-app',
+  template: `
+     &lt;h1>My First Attribute Directive&lt;/h1>
+     &lt;span myHighlight>Highlight me!&lt;/span>
+  `,
+  directives: [HighlightDirective]
+})
+export class AppComponent { }
+</pre>
+        </section>
+
+        <section>
+            <a href="https://angular.io/docs/ts/latest/guide/attribute-directives.html">Example</a>
         </section>
 
         <section>
             <h3>Dependency Injection</h3>
+        </section>
+
+        <section>
+            <h3>Forms</h3>
+            <br/>
+            <p>Angular 2 provides framework support for two-way data binding, change tracking, validation, and error handling</p>
+            <br/>
+            <p><a href="https://angular.io/docs/ts/latest/guide/forms.html">Example</a></p>
         </section>
 
         <section>
