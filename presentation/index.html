@@ -554,6 +554,46 @@ export class AppComponent { }</code></pre>
         </section>
 
         <section>
+            <ul>
+                <li class="fragment">Transforms the element into a template</li>
+                <li class="fragment">Creates/Destroys the contents of the template in the DOM</li>
+                <li class="fragment">Uses * as syntatical sugar</li>
+            </ul>
+        </section>
+
+        <section>
+            <pre>&lt;!-- (A) *ngIf paragraph -->
+&lt;p *ngIf="condition">
+  Our heroes are true!
+&lt;/p>
+
+&lt;!-- (B) [ngIf] with template -->
+&lt;template [ngIf]="condition">
+  &lt;p>
+      Our heroes are true!
+  &lt;/p>
+&lt;/template></pre>
+        </section>
+
+        <section>
+            <pre><code class="typescript">@Directive({ selector: '[myUnless]' })
+export class UnlessDirective {
+  constructor(
+    private _templateRef: TemplateRef,
+    private _viewContainer: ViewContainerRef
+  ) { }
+  @Input() set myUnless(condition: boolean) {
+    if (!condition) {
+      this._viewContainer.createEmbeddedView(
+                this._templateRef);
+    } else {
+      this._viewContainer.clear();
+    }
+  }
+}</code></pre>
+        </section>
+
+        <section>
             <h3>Attribute Directives</h3>
             <br/>
             <p>changes the appearance or behavior of a DOM element</p>
@@ -595,15 +635,15 @@ export class AppComponent { }
         </section>
 
         <section>
-            <h3>Dependency Injection</h3>
-        </section>
-
-        <section>
             <h3>Forms</h3>
             <br/>
             <p>Angular 2 provides framework support for two-way data binding, change tracking, validation, and error handling</p>
             <br/>
             <p><a href="https://angular.io/docs/ts/latest/guide/forms.html">Example</a></p>
+        </section>
+
+        <section>
+            <h3>Dependency Injection</h3>
         </section>
 
         <section>
@@ -613,9 +653,7 @@ export class AppComponent { }
         <section>
             <h2>References</h2>
             <br/>
-            <ul>
-                <li><a href="https://angular.io/docs/ts/latest/">Angular Docs</a></li>
-            </ul>
+            <p>Much of this presentation was shamelessly take from the <a href="https://angular.io/docs/ts/latest/">Angular Docs</a></p>
         </section>
 
         <section>
