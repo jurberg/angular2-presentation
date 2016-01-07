@@ -198,7 +198,7 @@ import {AppComponent} from './app.component';</code></pre>
                 <li class="fragment">An Angular 2 app is a tree of components</li>
                 <li class="fragment">Every Angular 2 app must have at least one component</li>
                 <li class="fragment">A component class is an execution context for the template</li>
-                <li class="fragment">A component requires a @Component decorator</li>
+                <li class="fragment">A component requires a @Component annotation</li>
             </ul>
         </section>
 
@@ -594,6 +594,12 @@ export class UnlessDirective {
         </section>
 
         <section>
+            <pre>&lt;p *myUnless="condition">
+  condition is false and myUnless is true.
+&lt;/p></pre>
+        </section>
+
+        <section>
             <h3>Attribute Directives</h3>
             <br/>
             <p>changes the appearance or behavior of a DOM element</p>
@@ -631,7 +637,47 @@ export class AppComponent { }
         </section>
 
         <section>
-            <a href="https://angular.io/docs/ts/latest/guide/attribute-directives.html">Example</a>
+            <pre><code class="typescript">@Directive({
+  selector: '[myHighlight]',
+    host: {
+      '(mouseenter)': 'onMouseEnter()',
+      '(mouseleave)': 'onMouseLeave()'
+    }
+})
+export class HighlightDirective {
+
+  @Input('myHighlight') highlightColor: string;
+  private _defaultColor = 'red';
+
+  @Input() set defaultColor(colorName:string) {
+    this._defaultColor = colorName ||
+                this._defaultColor;
+  }</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="typescript">  constructor(private el: ElementRef,
+    private renderer: Renderer) { }
+
+  onMouseEnter() {
+    this._highlight(this.highlightColor ||
+                this._defaultColor);
+  }
+
+  onMouseLeave() { this._highlight(null); }
+
+  private _highlight(color:string) {
+    this.renderer.setElementStyle(this.el,
+                'backgroundColor', color);
+  }
+
+}</code></pre>
+        </section>
+
+        <section>
+            <pre>&lt;p [myHighlight]="color" [defaultColor]="'violet'">
+  Highlight me!
+&lt;/p></pre>
         </section>
 
         <section>
@@ -644,6 +690,104 @@ export class AppComponent { }
 
         <section>
             <h3>Dependency Injection</h3>
+            <br/>
+            <p>a coding pattern in which a class receives its dependencies from external sources rather than creating them itself</p>
+        </section>
+
+        <section>
+            <pre><code class="typescript">class HeroService {
+
+  heroes: Hero[];
+
+  constructor() {
+    this.heroes = HEROES;
+  }
+
+  getHeroes() {
+    return this.heroes;
+  }
+}</code></pre>
+        </section>
+
+        <section>
+            <p>Angular 1</p>
+            <pre><code class="javascript">app.service('HeroService', HeroService)</code></pre>
+            <p>Angular 2</p>
+            <pre><code class="typescript">bootstrap(AppComponent, [HeroService])</code></pre>
+        </section>
+
+        <section>
+            <p>Angular 1</p>
+            <pre><code class="typescript">function AppCtrl(HeroService) {}
+app.controller('AppCtrl', ['HeroService', AppCtrl])</code></pre>
+            <p>Angular 2</p>
+            <pre><code class="typescript">@Component({...})
+class AppCtrl {
+  constructor(heroService: HeroService) {
+    this.heroes = heroService.getHeroes();
+  }
+}</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="typescript">@Injectable()
+class HeroService {
+
+  heroes: Hero[];
+
+  constructor(private logger: Logger) {
+    this.heroes = HEROES;
+  }
+
+  getHeroes() {
+    this.logger.log('Getting heroes ...')
+    return this.heroes;
+  }
+
+}</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="typescript">[HeroService]
+
+[provide(HeroService, {useClass:HeroService})]
+
+[new Provider(HeroService, {useClass:HeroService})]
+
+let factory = (logger: Logger, userService: UserService) => {
+  return new HeroService(logger, userService.user.isSpecial);
+};
+
+let def = {
+  useFactory: factory,
+  deps: [Logger, UserService]
+};
+
+let prov = provide(HeroService, def);
+bootstrap(AppComponent, [prov, Logger, UserService]);</code></pre>
+        </section>
+
+        <section>
+            <h3>Hierarchical Injectors</h3>
+            <br/>
+            <p>Angular's hierarchical dependency injection system supports nested injectors in parallel with the component tree</p>
+        </section>
+
+        <section>
+            <img src="img/injectors.png"/>
+        </section>
+
+        <section>
+            <pre><code class="typescript">@Component({
+  providers: [ProductCatalogStore]
+})
+export class AddOnComponent {
+  constructor(private _store: ProductCatalogStore) {}
+}</code></pre>
+        </section>
+
+        <section>
+            <h3>Upgrade from Angular 1?</h3>
         </section>
 
         <section>
