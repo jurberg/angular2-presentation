@@ -689,6 +689,52 @@ export class HighlightDirective {
         </section>
 
         <section>
+            <h3>Observables</h3>
+            <br/>
+            <p>Angular 2 use RxJS to provide observables on forms</p>
+        </section>
+
+        <section>
+            <pre><code class="javascript">import {Injectable} from 'angular2/core';
+import {URLSearchParams, Jsonp} from 'angular2/http';
+
+@Injectable()
+export class WikipediaService {
+  constructor(private jsonp: Jsonp) {}
+  search (term: string) {
+    var search = new URLSearchParams()
+    search.set('action', 'opensearch');
+    search.set('search', term);
+    search.set('format', 'json');
+    return this.jsonp
+        .get('http://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK', { search })
+        .map((request) => request.json()[1]);
+  }
+}</code></pre>
+        </section>
+
+        <section>
+            <pre>@Component({
+  selector: 'my-app',
+  template: `
+      &lt;ul>
+        &lt;li *ngFor="#item of items | async">{{item}}&lt;/li>
+      &lt;/ul>
+  `
+})
+export class App {
+  items: Observable&lt;Array&lt;string>>;
+  term = new Control();
+  constructor(private wikipediaService: WikipediaService) {
+    this.items = this.term.valueChanges
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap(term => this.wikipediaService.search(term));
+  }
+}</pre>
+        </section>
+
+        <section>
             <h3>Dependency Injection</h3>
             <br/>
             <p>a coding pattern in which a class receives its dependencies from external sources rather than creating them itself</p>
@@ -787,7 +833,62 @@ export class AddOnComponent {
         </section>
 
         <section>
-            <h3>Upgrade from Angular 1?</h3>
+            <h3>Upgrade from Angular 1</h3>
+        </section>
+
+        <section>
+            <h4>Preparation</h4>
+            <br/>
+            <ul>
+                <li>Use directives in place of controllers</li>
+                <li>Use component instead of directive</li>
+            </ul>
+        </section>
+
+        <section>
+            <pre><code class="javascript">.directive('counter', function counter() {
+  return {
+    scope: {},
+    bindToController: {
+      count: '='
+    },
+    controller: function () {
+      this.increment = function() { this.count++; };
+      this.decrement = function() { this.count--; };
+    },
+    controllerAs: 'counter'
+  };
+});</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">.component('counter', {
+  bindings: {
+    count: '='
+  },
+  controller: function () {
+    this.increment = function() { this.count++; };
+    this.decrement = function() { this.count--; }
+  }
+});</code></pre>
+        </section>
+
+        <section>
+            <h4>Upgrade</h4>
+            <br/>
+            <ul>
+                <li>Big Bang</li>
+                <li>Incremental</li>
+            </ul>
+        </section>
+
+        <section>
+            <h4>ngUpgrade</h4>
+            <br/>
+            <ul>
+                <li>Load both Angular 1 and Angular 2</li>
+                <li>Use ngUpgrade to bridge between them</li>
+            </ul>
         </section>
 
         <section>
