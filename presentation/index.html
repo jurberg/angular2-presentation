@@ -51,6 +51,14 @@
         </section>
 
         <section>
+            <p>Angular 2 represents a massive change to the framework</p>
+        </section>
+
+        <section>
+            <p>This presentation will show the Angular 2 concepts to Angular 1</p>
+        </section>
+
+        <section>
             <h2>Angular 1</h2>
         </section>
 
@@ -70,15 +78,17 @@
         </section>
 
         <section>
-            <pre><code class="javascript">function PhoneListCtrl($scope) {
-  $scope.phones = [
-    {'name': 'Nexus S',
-     'snippet': 'Fast just got faster with Nexus S.'},
-    {'name': 'Motorola XOOM™ with Wi-Fi',
-      'snippet': 'The Next, Next Generation tablet.'},
-    {'name': 'MOTOROLA XOOM™',
-      'snippet': 'The Next, Next Generation tablet.'}
-  ];
+            <pre><code class="javascript">
+var PHONES = [
+  {'name': 'Nexus S',
+   'snippet': 'Fast just got faster with Nexus S.'},
+  {'name': 'Motorola XOOM™ with Wi-Fi',
+   'snippet': 'The Next, Next Generation tablet.'},
+  {'name': 'MOTOROLA XOOM™',
+   'snippet': 'The Next, Next Generation tablet.'}
+];
+function PhoneListCtrl($scope) {
+  $scope.phones = PHONES;
 }
 angular.module('phonecatApp', [])
   .controller('PhoneListCtrl', ['$scope', PhoneListCtrl]);</code></pre>
@@ -842,6 +852,8 @@ export class AddOnComponent {
             <ul>
                 <li>Use directives in place of controllers</li>
                 <li>Use component instead of directive</li>
+                <li>Use only module.service(...)</li>
+                <li>Use ES6 or TypeScript</li>
             </ul>
         </section>
 
@@ -889,6 +901,40 @@ export class AddOnComponent {
                 <li>Load both Angular 1 and Angular 2</li>
                 <li>Use ngUpgrade to bridge between them</li>
             </ul>
+        </section>
+
+        <section>
+            <ul>
+                <li>Include Angular 2 and upgrade module</li>
+                <li>Pick component to upgrade and change to Angular 2 syntax</li>
+                <li>Downgrade Angular 2 component to make it run in Angular 1</li>
+                <li>Pick a service to upgrade</li>
+                <li>Repeat step 2 and 3 (and 4)</li>
+                <li>Replace Angular 1 bootstrap with Angular 2 bootstrap</li>
+            </ul>
+        </section>
+
+        <section>
+            <pre><code class="typescript">import {UpgradeAdapter} from 'angular2/upgrade';
+
+var adapter = new UpgradeAdapter();
+var app = angular.module('myApp', []);
+
+adapter.bootstrap(document.body, ['myApp']);</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.directive('productDetail',
+  adapter.downgradeNg2Component(ProductDetail));</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="typescript">@Component({
+  selector: 'product-list',
+  directives: [
+    adapter.upgradeNg1Component('productListItem')
+  ]});
+export class ProductList {}</code></pre>
         </section>
 
         <section>
