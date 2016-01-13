@@ -866,6 +866,47 @@ export class AddOnComponent {
 }</code></pre>
         </section>
 
+
+        <section>
+            <h3>Testing</h3>
+        </section>
+
+        <section>
+            <pre><code class="javascript">(function(app) {
+  app.PhoneService = function() {
+    this.phones = [/* ... */];
+  };
+  app.AppComponent = ng.core
+    .Component({
+      selector: 'my-app',
+      templateUrl: 'app/app.html'
+    })
+    .Class({
+      constructor: [app.PhoneService, function(PhoneService) {
+        this.phones = PhoneService.phones;
+      }]
+    });
+})(window.app || (window.app = {}));</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">describe('AppComponent', function() {
+  var phoneService, appComponent;
+
+  beforeEach(function() {
+    phoneService = {
+      phones: []
+    };
+    appComponent = new app.AppComponent(phoneService);
+  });
+
+  it("should have zero phones", function() {
+    expect(appComponent.phones.length).toBe(0);
+  });
+
+});</code></pre>
+        </section>
+
         <section>
             <h3>Upgrade from Angular 1</h3>
         </section>

@@ -1,7 +1,7 @@
-(function() {
+(function(app) {
     'use strict';
 
-    function PhoneService() {
+    app.PhoneService = function() {
         this.phones = [
             {'name': 'Nexus S',
                 'snippet': 'Fast just got faster with Nexus S.'},
@@ -10,23 +10,19 @@
             {'name': 'MOTOROLA XOOM™',
                 'snippet': 'The Next, Next Generation tablet.'}
         ];
-    }
+    };
 
-    var AppComponent = ng.core
+    app.AppComponent = ng.core
         .Component({
             selector: 'my-app',
             templateUrl: 'app/app.html'
         })
         .Class({
-            constructor: [PhoneService, function(PhoneService) {
+            constructor: [app.PhoneService, function(PhoneService) {
                 this.phones = PhoneService.phones;
             }]
         });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        ng.platform.browser.bootstrap(AppComponent, [PhoneService]);
-    });
-
-})();
+})(window.app || (window.app = {}));
 
 
