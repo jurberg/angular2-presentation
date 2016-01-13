@@ -1,7 +1,7 @@
 (function(angular) {
 
-    function PhoneListCtrl($scope) {
-        $scope.phones = [
+    function PhoneService() {
+        this.phones = [
             {'name': 'Nexus S',
                 'snippet': 'Fast just got faster with Nexus S.'},
             {'name': 'Motorola XOOM™ with Wi-Fi',
@@ -11,7 +11,12 @@
         ];
     }
 
+    function PhoneListCtrl($scope, PhoneService) {
+        $scope.phones = PhoneService.phones;
+    }
+
     angular.module('phonecatApp', [])
-        .controller('PhoneListCtrl', ['$scope', PhoneListCtrl]);
+        .service('PhoneService', PhoneService)
+        .controller('PhoneListCtrl', ['$scope', 'PhoneService', PhoneListCtrl]);
 
 })(angular);

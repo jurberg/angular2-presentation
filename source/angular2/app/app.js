@@ -9,7 +9,7 @@ System.register(['angular2/platform/browser', 'angular2/core'], function(exports
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var browser_1, core_1;
-    var PHONES, AppComponent;
+    var PhoneService, AppComponent;
     return {
         setters:[
             function (browser_1_1) {
@@ -19,29 +19,34 @@ System.register(['angular2/platform/browser', 'angular2/core'], function(exports
                 core_1 = core_1_1;
             }],
         execute: function() {
-            PHONES = [
-                { 'name': 'Nexus S',
-                    'snippet': 'Fast just got faster with Nexus S.' },
-                { 'name': 'Motorola XOOM™ with Wi-Fi',
-                    'snippet': 'The Next, Next Generation tablet.' },
-                { 'name': 'MOTOROLA XOOM™',
-                    'snippet': 'The Next, Next Generation tablet.' }
-            ];
+            PhoneService = (function () {
+                function PhoneService() {
+                    this.phones = [
+                        { 'name': 'Nexus S',
+                            'snippet': 'Fast just got faster with Nexus S.' },
+                        { 'name': 'Motorola XOOM™ with Wi-Fi',
+                            'snippet': 'The Next, Next Generation tablet.' },
+                        { 'name': 'MOTOROLA XOOM™',
+                            'snippet': 'The Next, Next Generation tablet.' }
+                    ];
+                }
+                return PhoneService;
+            })();
             AppComponent = (function () {
-                function AppComponent() {
-                    this.phones = PHONES;
+                function AppComponent(phoneService) {
+                    this.phones = phoneService.phones;
                 }
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
                         templateUrl: 'app/app.html'
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [PhoneService])
                 ], AppComponent);
                 return AppComponent;
             })();
             exports_1("AppComponent", AppComponent);
-            browser_1.bootstrap(AppComponent);
+            browser_1.bootstrap(AppComponent, [PhoneService]);
         }
     }
 });

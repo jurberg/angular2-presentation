@@ -1,17 +1,20 @@
 (function() {
     'use strict';
 
-    var PHONES = [
-        {'name': 'Nexus S',
-            'snippet': 'Fast just got faster with Nexus S.'},
-        {'name': 'Motorola XOOM™ with Wi-Fi',
-            'snippet': 'The Next, Next Generation tablet.'},
-        {'name': 'MOTOROLA XOOM™',
-            'snippet': 'The Next, Next Generation tablet.'}
-    ];
+    function PhoneService() {
+        this.phones = [
+            {'name': 'Nexus S',
+                'snippet': 'Fast just got faster with Nexus S.'},
+            {'name': 'Motorola XOOM™ with Wi-Fi',
+                'snippet': 'The Next, Next Generation tablet.'},
+            {'name': 'MOTOROLA XOOM™',
+                'snippet': 'The Next, Next Generation tablet.'}
+        ];
+    }
 
-    function AppComponent() {
-        this.phones = PHONES;
+
+    function AppComponent(PhoneService) {
+        this.phones = PhoneService.phones;
     }
 
     AppComponent.annotations = [
@@ -21,8 +24,10 @@
         })
     ];
 
+    AppComponent.parameters = [new ng.core.Inject(PhoneService)];
+
     document.addEventListener('DOMContentLoaded', function() {
-        ng.platform.browser.bootstrap(AppComponent);
+        ng.platform.browser.bootstrap(AppComponent, [PhoneService]);
     });
 
 })();

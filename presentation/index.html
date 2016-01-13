@@ -51,11 +51,18 @@
         </section>
 
         <section>
+            <h3>Angular 2 is in Beta!</h3>
+            <br/>
+            <p>"Beta means we're now confident that most developers can be successful building large applications using Angular 2."
+                <a href="http://angularjs.blogspot.com/2015/12/angular-2-beta.html">*</a></p>
+        </section>
+
+        <section>
             <p>Angular 2 represents a massive change to the framework</p>
         </section>
 
         <section>
-            <p>This presentation will show the Angular 2 concepts to Angular 1</p>
+            <p>Goal: Introduce Angular 2 with comparisons to Angular 1</p>
         </section>
 
         <section>
@@ -78,20 +85,18 @@
         </section>
 
         <section>
-            <pre><code class="javascript">
-var PHONES = [
-  {'name': 'Nexus S',
-   'snippet': 'Fast just got faster with Nexus S.'},
-  {'name': 'Motorola XOOM™ with Wi-Fi',
-   'snippet': 'The Next, Next Generation tablet.'},
-  {'name': 'MOTOROLA XOOM™',
-   'snippet': 'The Next, Next Generation tablet.'}
-];
-function PhoneListCtrl($scope) {
-  $scope.phones = PHONES;
+            <pre><code class="javascript">function PhoneService() {
+  this.phones = [/* ... */];
 }
+
+function PhoneListCtrl($scope, PhoneService) {
+  $scope.phones = PhoneService.phones;
+}
+
 angular.module('phonecatApp', [])
-  .controller('PhoneListCtrl', ['$scope', PhoneListCtrl]);</code></pre>
+  .service('PhoneService', PhoneService)
+  .controller('PhoneListCtrl',
+       ['$scope', 'PhoneService', PhoneListCtrl]);</code></pre>
         </section>
 
         <section>
@@ -117,23 +122,35 @@ angular.module('phonecatApp', [])
         </section>
 
         <section>
-            <pre><code class="javascript">import {bootstrap} from 'angular2/platform/browser';
+            <pre><code class="typescript">import {bootstrap} from 'angular2/platform/browser';
 import {Component} from 'angular2/core';
 
 interface Phone {
   name: string;
   snippet: string;
 }
-let PHONES: Phone[] = [/* ... */];
 
-@Component({
+class PhoneService {
+  public phones:Phone[] = [/* ... */];
+}</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="typescript">@Component({
   selector: 'my-app',
   templateUrl: 'app/app.html'
 })
 export class AppComponent {
-  public phones: Phone[] = PHONES;
+
+  public phones: Phone[];
+
+  constructor(phoneService:PhoneService) {
+    this.phones = phoneService.phones;
+  }
+
 }
-bootstrap(AppComponent);</code></pre>
+
+bootstrap(AppComponent, [PhoneService]);</code></pre>
         </section>
 
         <section>
@@ -147,35 +164,42 @@ bootstrap(AppComponent);</code></pre>
         </section>
 
         <section>
-            <pre><code class="typescript">function AppComponent() {
-  this.phones = PHONES;
+            <pre><code class="typescript">function PhoneService() {
+  this.phones = [/* ... */];
 }
 
+function AppComponent(PhoneService) {
+  this.phones = PhoneService.phones;
+}
 AppComponent.annotations = [
   new ng.core.Component({
     selector: 'my-app',
     templateUrl: 'app/app.html'
   })];
+AppComponent.parameters = [new ng.core.Inject(PhoneService)];
 
 document.addEventListener('DOMContentLoaded', function() {
-  ng.platform.browser.bootstrap(AppComponent);
+  ng.platform.browser.bootstrap(AppComponent, [PhoneService]);
 });</code></pre>
         </section>
 
         <section>
-            <pre><code class="javascript">let AppComponent = ng.core
+            <pre><code class="javascript">function PhoneService() {
+  this.phones = [/* ... */];
+}
+
+var AppComponent = ng.core
   .Component({
     selector: 'my-app',
     templateUrl: 'app/app.html'
   })
   .Class({
-    constructor: function() {
-      this.phones = PHONES;
-    }
+    constructor: [PhoneService, function(PhoneService) {
+      this.phones = PhoneService.phones;
+    }]
   });
-
 document.addEventListener('DOMContentLoaded', function() {
-  ng.platform.browser.bootstrap(AppComponent);
+  ng.platform.browser.bootstrap(AppComponent, [PhoneService]);
 });</code></pre>
         </section>
 
@@ -933,8 +957,13 @@ adapter.bootstrap(document.body, ['myApp']);</code></pre>
   selector: 'product-list',
   directives: [
     adapter.upgradeNg1Component('productListItem')
-  ]});
+  ]
+});
 export class ProductList {}</code></pre>
+        </section>
+
+        <section>
+            <h3>Non-Node Servers</h3>
         </section>
 
         <section>
@@ -944,7 +973,7 @@ export class ProductList {}</code></pre>
         <section>
             <h2>References</h2>
             <br/>
-            <p>Much of this presentation was shamelessly take from the <a href="https://angular.io/docs/ts/latest/">Angular Docs</a></p>
+            <p><a href="https://angular.io/docs/ts/latest/">Angular Docs</a></p>
         </section>
 
         <section>

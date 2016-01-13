@@ -1,30 +1,32 @@
-(function(app) {
+(function() {
     'use strict';
 
-    var PHONES = [
-        {'name': 'Nexus S',
-            'snippet': 'Fast just got faster with Nexus S.'},
-        {'name': 'Motorola XOOM™ with Wi-Fi',
-            'snippet': 'The Next, Next Generation tablet.'},
-        {'name': 'MOTOROLA XOOM™',
-            'snippet': 'The Next, Next Generation tablet.'}
-    ];
+    function PhoneService() {
+        this.phones = [
+            {'name': 'Nexus S',
+                'snippet': 'Fast just got faster with Nexus S.'},
+            {'name': 'Motorola XOOM™ with Wi-Fi',
+                'snippet': 'The Next, Next Generation tablet.'},
+            {'name': 'MOTOROLA XOOM™',
+                'snippet': 'The Next, Next Generation tablet.'}
+        ];
+    }
 
-    app.AppComponent = ng.core
+    var AppComponent = ng.core
         .Component({
             selector: 'my-app',
             templateUrl: 'app/app.html'
         })
         .Class({
-            constructor: function() {
-                this.phones = PHONES;
-            }
+            constructor: [PhoneService, function(PhoneService) {
+                this.phones = PhoneService.phones;
+            }]
         });
 
     document.addEventListener('DOMContentLoaded', function() {
-        ng.platform.browser.bootstrap(app.AppComponent);
+        ng.platform.browser.bootstrap(AppComponent, [PhoneService]);
     });
 
-})(window.app || (window.app = {}));
+})();
 
 
