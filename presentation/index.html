@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Angular 2 for the Angular 1 Pro</title>
+    <title>Intro to Angular 2</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -39,8 +39,7 @@
                 <img src="img/shield.png"/>
             </div>
             <div style="float: right;">
-                <h2>Angular 2 for the</h2>
-                <h2>Angular 1 Pro</h2>
+                <h2>Intro to Angular 2</h2>
                 <p>
                     <br/><br/>
                     <small>Created by John Urberg</small><br>
@@ -330,7 +329,7 @@ export class AddOnComponent implements OnInit, OnDestroy {
         </section>
 
         <section>
-            <pre><code class="xml"><!-- Angular 1 -->
+            <pre><code class="xml"><!-- Angular 1 using @ -->
 <todo-cmp model="myTodo"></todo-cmp>
 
 <!-- Angular 2 -->
@@ -374,7 +373,7 @@ export class AddOnComponent implements OnInit, OnDestroy {
         </section>
 
         <section>
-            <pre><code class="xml"><!-- Angular 1 -->
+            <pre><code class="xml"><!-- Angular 1  using & -->
 &lt;button ng-click="submit()"/>
 
 <!-- Angular 2 -->
@@ -401,7 +400,7 @@ export class AddOnComponent implements OnInit, OnDestroy {
 
         <section>
             <h3>Two-Way Bindings</h3>
-            <pre><code class="xml"><!-- Angular 1 -->
+            <pre><code class="xml"><!-- Angular 1 using = -->
 <todo-cmp model="myTodo"></todo-cmp>
 
 <!-- Angular 2 -->
@@ -494,6 +493,19 @@ export class AddOnComponent implements OnInit, OnDestroy {
 
         <section>
             <pre><code><p>The hero's birthday is {{ birthday | date }}</p></code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.filter('reverse', function() {
+  return function(input) {
+    input = input || '';
+    var out = "";
+    for (var i = 0; i < input.length; i++) {
+      out = input.charAt(i) + out;
+    }
+    return out;
+  };
+})</code></pre>
         </section>
 
         <section>
@@ -718,8 +730,37 @@ export class HighlightDirective {
             <h3>Forms</h3>
             <br/>
             <p>Angular 2 provides framework support for two-way data binding, change tracking, validation, and error handling</p>
-            <br/>
-            <p><a href="https://angular.io/docs/ts/latest/guide/forms.html">Example</a></p>
+        </section>
+
+        <section>
+            <pre><code class="typescript">@Component({
+  selector: 'hero-form',
+  templateUrl: 'app/hero-form.component.html'
+})
+export class HeroFormComponent {
+  powers = ['Really Smart', 'Super Flexible',
+            'Super Hot', 'Weather Changer'];
+  model = new Hero(18, 'Dr IQ', this.powers[0],
+                   'Chuck Overstreet');
+  submitted = false;
+  onSubmit() { this.submitted = true; }
+}</code></pre>
+        </section>
+
+        <section>
+            <pre>&lt;form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+  &lt;div class="form-group">
+    &lt;label for="name">Name&lt;/label>
+    &lt;input type="text" class="form-control" required
+      [(ngModel)]="model.name"
+      ngControl="name"  #name="ngForm" >
+    &lt;div [hidden]="name.valid" class="alert alert-danger">
+      Name is required
+    &lt;/div>
+  &lt;/div>
+  &lt;button type="submit" class="btn btn-default"
+    [disabled]="!heroForm.form.valid">Submit&lt;/button>
+&lt;/form></pre>
         </section>
 
         <section>
@@ -751,6 +792,7 @@ export class WikipediaService {
             <pre>@Component({
   selector: 'my-app',
   template: `
+      &lt;input type="text" [ngFormControl]="term"/>
       &lt;ul>
         &lt;li *ngFor="#item of items | async">{{item}}&lt;/li>
       &lt;/ul>
@@ -834,17 +876,15 @@ class HeroService {
 
 [new Provider(HeroService, {useClass:HeroService})]
 
-let factory = (logger: Logger, userService: UserService) => {
-  return new HeroService(logger, userService.user.isSpecial);
+let heroFactory = (l: Logger, us: UserService) => {
+  return new HeroService(l, us.user.isSpecial);
 };
 
-let def = {
-  useFactory: factory,
+let p = provide(HeroService, {
+  useFactory: heroFactory,
   deps: [Logger, UserService]
-};
-
-let prov = provide(HeroService, def);
-bootstrap(AppComponent, [prov, Logger, UserService]);</code></pre>
+});
+bootstrap(AppComponent, [p, Logger, UserService]);</code></pre>
         </section>
 
         <section>
@@ -920,34 +960,6 @@ export class AddOnComponent {
                 <li>Use only module.service(...)</li>
                 <li>Use ES6 or TypeScript</li>
             </ul>
-        </section>
-
-        <section>
-            <pre><code class="javascript">.directive('counter', function counter() {
-  return {
-    scope: {},
-    bindToController: {
-      count: '='
-    },
-    controller: function () {
-      this.increment = function() { this.count++; };
-      this.decrement = function() { this.count--; };
-    },
-    controllerAs: 'counter'
-  };
-});</code></pre>
-        </section>
-
-        <section>
-            <pre><code class="javascript">.component('counter', {
-  bindings: {
-    count: '='
-  },
-  controller: function () {
-    this.increment = function() { this.count++; };
-    this.decrement = function() { this.count--; }
-  }
-});</code></pre>
         </section>
 
         <section>
