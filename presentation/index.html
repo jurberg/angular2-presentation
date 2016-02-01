@@ -948,6 +948,26 @@ export class AddOnComponent {
         </section>
 
         <section>
+            <pre><code class="javascript">class MockPhoneService {
+  public phones:Phone[] = [];
+}
+
+describe('DisplayName', () => {
+
+  beforeEachProviders(() => [
+    provide(PhoneService,{useClass: MockPhoneService}),
+    AppComponent
+  ]);
+
+  it('should have zero phones',
+      inject([AppComponent], (appComponent) => {
+    expect(appComponent.phones.length).toBe(0);
+  }));
+
+});</code></pre>
+        </section>
+
+        <section>
             <h3>Upgrade from Angular 1</h3>
         </section>
 
