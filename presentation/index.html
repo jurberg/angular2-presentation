@@ -276,6 +276,14 @@ app.controller('AddOnController',
             </section>
 
         <section>
+            <pre><code class="xml"><div ng-controller="AddOnController" ng-init="init()">
+  <div ng-repeat="item in addOns">
+     <addon-item item="item"></addon-item>
+  </div>
+</div></code></pre>
+        </section>
+
+        <section>
             <h3>Angular 2</h3>
             <pre><code class="typescript">@Component({
   providers: [ProductCatalogStore],
@@ -330,7 +338,7 @@ export class AddOnComponent implements OnInit, OnDestroy {
 
         <section>
             <pre><code class="xml"><!-- Angular 1 using @ -->
-<todo-cmp model="myTodo"></todo-cmp>
+<todo-cmp model="{{myTodo}}"></todo-cmp>
 
 <!-- Angular 2 -->
 <todo-cmp bind-model="myTodo"></todo-cmp>
@@ -347,7 +355,7 @@ export class AddOnComponent implements OnInit, OnDestroy {
 &lt;div [class.special]="isSpecial">Special&lt;/div>
 
 <!-- Style -->
-&lt;button [style.color] = "isSpecial ? 'red' : 'green'"/></code></pre>
+&lt;button [style.color]="isSpecial ? 'red' : 'green'"/></code></pre>
         </section>
 
         <section>
@@ -766,7 +774,7 @@ export class HeroFormComponent {
         <section>
             <h3>Observables</h3>
             <br/>
-            <p>Angular 2 use RxJS to provide observables on forms</p>
+            <p>Angular 2 uses RxJS to provide observables on forms</p>
         </section>
 
         <section>
@@ -812,14 +820,12 @@ export class App {
 
         <section>
             <h3>Dependency Injection</h3>
-            <br/>
-            <p>a coding pattern in which a class receives its dependencies from external sources rather than creating them itself</p>
         </section>
 
         <section>
             <pre><code class="typescript">class HeroService {
 
-  heroes: Hero[];
+  heroes;
 
   constructor() {
     this.heroes = HEROES;
@@ -840,7 +846,9 @@ export class App {
 
         <section>
             <p>Angular 1</p>
-            <pre><code class="typescript">function AppCtrl(HeroService) {}
+            <pre><code class="typescript">function AppCtrl(HeroService) {
+  this.heroes = heroService.getHeroes();
+}
 app.controller('AppCtrl', ['HeroService', AppCtrl])</code></pre>
             <p>Angular 2</p>
             <pre><code class="typescript">@Component({...})
@@ -870,7 +878,7 @@ class HeroService {
         </section>
 
         <section>
-            <pre><code class="typescript">[HeroService]
+            <pre><code class="typescript">bootstrap(App, [HeroService]);
 
 [provide(HeroService, {useClass:HeroService})]
 
@@ -899,10 +907,10 @@ bootstrap(AppComponent, [p, Logger, UserService]);</code></pre>
 
         <section>
             <pre><code class="typescript">@Component({
-  providers: [ProductCatalogStore]
+  providers: [HeroService]
 })
-export class AddOnComponent {
-  constructor(private _store: ProductCatalogStore) {}
+export class HerosCardComponent {
+  constructor(private _heros: HeroService) {}
 }</code></pre>
         </section>
 
@@ -976,7 +984,6 @@ describe('DisplayName', () => {
             <br/>
             <ul>
                 <li>Use directives in place of controllers</li>
-                <li>Use component instead of directive</li>
                 <li>Use only module.service(...)</li>
                 <li>Use ES6 or TypeScript</li>
             </ul>
@@ -1001,27 +1008,27 @@ describe('DisplayName', () => {
         </section>
 
         <section>
-            <ul>
+            <ol>
                 <li>Include Angular 2 and upgrade module</li>
                 <li>Pick component to upgrade and change to Angular 2 syntax</li>
                 <li>Downgrade Angular 2 component to make it run in Angular 1</li>
                 <li>Pick a service to upgrade</li>
                 <li>Repeat step 2 and 3 (and 4)</li>
                 <li>Replace Angular 1 bootstrap with Angular 2 bootstrap</li>
-            </ul>
+            </ol>
         </section>
 
         <section>
             <pre><code class="typescript">import {UpgradeAdapter} from 'angular2/upgrade';
 
-var adapter = new UpgradeAdapter();
 var app = angular.module('myApp', []);
 
+var adapter = new UpgradeAdapter();
 adapter.bootstrap(document.body, ['myApp']);</code></pre>
         </section>
 
         <section>
-            <pre><code class="javascript">app.directive('productDetail',
+            <pre><code class="javascript">app.directive('ProductDetail',
   adapter.downgradeNg2Component(ProductDetail));</code></pre>
         </section>
 
