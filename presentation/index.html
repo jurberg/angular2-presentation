@@ -61,6 +61,10 @@
         </section>
 
         <section>
+            <h1>TL;DR</h1>
+        </section>
+
+        <section>
             <h2>Angular 1</h2>
         </section>
 
@@ -757,17 +761,24 @@ export class HeroFormComponent {
 
         <section>
             <pre>&lt;form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+
   &lt;div class="form-group">
+
     &lt;label for="name">Name&lt;/label>
+
     &lt;input type="text" class="form-control" required
       [(ngModel)]="model.name"
-      ngControl="name"  #name="ngForm" >
+      ngControl="name" #name="ngForm">
+
     &lt;div [hidden]="name.valid" class="alert alert-danger">
       Name is required
     &lt;/div>
+
   &lt;/div>
+
   &lt;button type="submit" class="btn btn-default"
     [disabled]="!heroForm.form.valid">Submit&lt;/button>
+
 &lt;/form></pre>
         </section>
 
